@@ -17,7 +17,7 @@ RAG uses a semantically searchable knowledge base (like vector search) to retrie
 5. A [Jupyter](https://docs.jupyter.org/en/latest/) notebook running on GKE that reads the dataset using GCS fuse driver integrations and runs a Ray job to populate the vector DB.
 3. A front end chat interface running on GKE that prompts the inference server with context from the vector DB.
 
-This tutorial walks you through installing the RAG infrastructure in a GCP project, generating vector embeddings for a sample [Kaggle Netflix shows](https://www.kaggle.com/datasets/shivamb/netflix-shows) dataset and prompting the LLM with context.
+This tutorial walks you through installing the RAG infrastructure in a GCP project, generating vector embeddings for a sample [Kubernetes Docs](https://github.com/dohsimpson/kubernetes-doc-pdf) dataset and prompting the LLM with context.
 
 # Prerequisites
 
@@ -74,7 +74,7 @@ This section sets up the RAG infrastructure in your GCP project using Terraform.
 
 # Generate vector embeddings for the dataset
 
-This section generates the vector embeddings for your input dataset. Currently, the default dataset is [Netflix shows](https://www.kaggle.com/datasets/shivamb/netflix-shows). We will use a Jupyter notebook to run a Ray job that generates the embeddings & populates them into the `pgvector` instance created above.
+This section generates the vector embeddings for your input dataset. Currently, the default dataset is [Kubernetes docs](https://github.com/dohsimpson/kubernetes-doc-pdf). We will use a Jupyter notebook to generate the embeddings & populates them into the `pgvector` instance created above.
 
 Set your the namespace, cluster name and location from `workloads.tfvars`):
 
@@ -108,30 +108,10 @@ gcloud container clusters get-credentials ${CLUSTER_NAME} --location=${CLUSTER_L
 
 2. Load the notebook:
     - Once logged in to JupyterHub, choose the `CPU` preset with `Default` storage. 
-    - Click [File] -> [Open From URL] and paste: `https://raw.githubusercontent.com/GoogleCloudPlatform/ai-on-gke/main/applications/rag/example_notebooks/rag-kaggle-ray-sql-interactive.ipynb`
+    - Click [File] -> [Open From URL] and paste: `https://raw.githubusercontent.com/GoogleCloudPlatform/ai-on-gke/main/applications/rag/example_notebooks/rag-data-ingest-with-kubernetes-docs.ipynb`
 
-3. Configure Kaggle:
-    - Create a [Kaggle account](https://www.kaggle.com/account/login?phase=startRegisterTab&returnUrl=%2F).
-    - [Generate an API token](https://www.kaggle.com/settings/account). See [further instructions](https://www.kaggle.com/docs/api#authentication). This token is used in the notebook to access the [Kaggle Netflix shows](https://www.kaggle.com/datasets/shivamb/netflix-shows) dataset.
-    - Replace the variables in the 1st cell of the notebook with your Kaggle credentials (can be found in the `kaggle.json` file created while generating the API token):
-        * `KAGGLE_USERNAME`
-        * `KAGGLE_KEY`
 
-4. Generate vector embeddings: Run all the cells in the notebook to generate vector embeddings for the Netflix shows dataset (https://www.kaggle.com/datasets/shivamb/netflix-shows) and store them in the `pgvector` CloudSQL instance via a Ray job.
-    * When the last cell says the job has succeeded (eg: `Job 'raysubmit_APungAw6TyB55qxk' succeeded`), the vector embeddings have been generated and we can launch the frontend chat interface. Note that running the job can take up to 10 minutes.
-    * Ray may take several minutes to create the runtime environment. During this time, the job will appear to be missing (e.g. `Status message: PENDING`).
-    * Connect to the Ray dashboard to check the job status or logs:
-        - If IAP is disabled (`ray_dashboard_add_auth = false`):
-            - `kubectl port-forward -n ${NAMESPACE} service/ray-cluster-kuberay-head-svc 8265:8265`
-            - Go to `localhost:8265` in a browser
-        - If IAP is enabled (`ray_dashboard_add_auth = true`):
-            - Fetch the domain: `terraform output ray-dashboard-managed-cert`
-            - If you used a custom domain, ensure you configured your DNS as described above.
-            - Verify the domain status is `Active`:
-                - `kubectl get managedcertificates ray-dashboard-managed-cert -n ${NAMESPACE} --output jsonpath='{.status.domainStatus[0].status}'`
-                - Note: This can take up to 20 minutes to propagate.
-            - Once the domain status is Active, go to the domain in a browser and login with your Google credentials.
-            - To add additional users to your frontend application, go to [Google Cloud Platform IAP](https://console.cloud.google.com/security/iap), select the `rag/ray-cluster-kuberay-head-svc` service and add principals with the role `IAP-secured Web App User`.
+3. Generate vector embeddings: Run all the cells in the notebook to generate vector embeddings for the [Kubernetes documentation](https://github.com/dohsimpson/kubernetes-doc-pdf) and store them in the `pgvector` CloudSQL instance using a Ray Job.
 
 # Launch the frontend chat interface
 

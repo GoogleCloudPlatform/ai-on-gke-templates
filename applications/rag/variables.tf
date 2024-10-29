@@ -99,7 +99,7 @@ variable "gcs_bucket" {
 variable "dataset_embeddings_table_name" {
   type        = string
   description = "Name of the table that stores vector embeddings for input dataset"
-  default     = "netflix_reviews_db"
+  default     = "rag_embeddings_db"
 }
 
 variable "create_brand" {

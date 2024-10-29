@@ -70,7 +70,7 @@ spec:
       - name: dataset_embeddings_table_name
         description: Name of the table that stores vector embeddings for input dataset
         varType: string
-        defaultValue: netflix_reviews_db
+        defaultValue: rag_embeddings_db
       - name: disable_ray_cluster_network_policy
         description: Disables Kubernetes Network Policy for Ray Clusters for this demo. Defaulting to 'true' aka disabled pending fixes to the kuberay-monitoring module. This should be defaulted to false.
         varType: bool

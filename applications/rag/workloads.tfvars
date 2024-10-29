@@ -47,7 +47,7 @@ rag_service_account = "rag-sa"
 jupyter_service_account = "jupyter-rag-sa"
 
 ## Embeddings table name - change this to the TABLE_NAME used in the notebook.
-dataset_embeddings_table_name = "netflix_reviews_db"
+dataset_embeddings_table_name = "rag_embeddings_db"
 
 ##############################################################################################################
 # If you don't want to enable IAP authenticated access for your endpoints, ignore everthing below this line. #

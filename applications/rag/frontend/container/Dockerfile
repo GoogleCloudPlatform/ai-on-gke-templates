@@ -19,4 +19,9 @@ WORKDIR /workspace/frontend
 
 RUN pip install -r requirements.txt
 
-CMD ["python", "main.py"]
+EXPOSE 8080
+
+ENV FLASK_APP=/workspace/frontend/main.py
+ENV PYTHONPATH=/workspace/frontend/
+# Run the application with Gunicorn
+CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:8080", "main:app"]

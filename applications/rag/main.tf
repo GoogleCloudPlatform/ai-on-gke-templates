@@ -279,6 +279,7 @@ module "frontend" {
   source                        = "./frontend"
   providers                     = { helm = helm.rag, kubernetes = kubernetes.rag }
   project_id                    = var.project_id
+  region                        = var.cluster_location
   create_service_account        = var.create_rag_service_account
   google_service_account        = local.rag_service_account
   namespace                     = local.kubernetes_namespace

@@ -12,24 +12,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-Flask==3.0.0
-gunicorn==22.0.0
-Werkzeug==3.0.3
-langchain
-sentence-transformers
-google-cloud-dlp==3.12.2
-google-cloud-storage==2.9.0
-google-cloud-pubsub==2.17.0
-google-cloud-datastore==2.15.2
-google-cloud-bigquery==3.11.4
-google-cloud-language==2.12
-google-api-core==2.15
-flask_sqlalchemy==3.1.1
-google==3.0.0
-google-cloud==0.34.0
-google-cloud-logging==3.9.0
-google-api-python-client==2.114.0
-pymysql==1.1.1
-cloud-sql-python-connector[pg8000]
-langchain-google-cloud-sql-pg
-langchain-huggingface
+from google.api_core import exceptions
+from google.api_core.retry import Retry
+
+
+_RETRIABLE_TYPES = [
+    exceptions.TooManyRequests,  # 429
+    exceptions.InternalServerError,  # 500
+    exceptions.BadGateway,  # 502
+    exceptions.ServiceUnavailable,  # 503
+]
+
+
+def is_retryable(exc):
+    return isinstance(exc, _RETRIABLE_TYPES)
+
+retry_policy = Retry(predicate=is_retryable)

@@ -17,6 +17,6 @@ steps:
 - name: 'gcr.io/cloud-builders/docker'
   args: [ 'pull', 'docker.io/jupyter/tensorflow-notebook:python-3.10' ]
 - name: 'gcr.io/cloud-builders/docker'
-  args: [ 'build', '-t', '<Artiact registry repo>/<image name>', '.' ]
+  args: [ 'build', '-t', 'us-docker.pkg.dev/globant-gke-ai-resources/gke-ai-text-to-text/gke-jupyterhub-image', '.' ]
 images:
-- '<Artiact registry repo>/<image name>'
+- 'us-docker.pkg.dev/globant-gke-ai-resources/gke-ai-text-to-text/gke-jupyterhub-image'

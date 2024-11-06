@@ -12,18 +12,4 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from google.api_core import exceptions
-from google.api_core.retry import Retry
-
-
-_RETRIABLE_TYPES = [
-exceptions.TooManyRequests,  # 429
-exceptions.InternalServerError,  # 500
-exceptions.BadGateway,  # 502
-exceptions.ServiceUnavailable,  # 503
-]
-
-def is_retryable(exc):
-    return isinstance(exc, _RETRIABLE_TYPES)
-
-retry_policy = Retry(predicate=is_retryable)
+# This file is required to make Python treat the subfolder as a package

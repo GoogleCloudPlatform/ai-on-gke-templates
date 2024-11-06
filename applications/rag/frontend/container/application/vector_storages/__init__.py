@@ -12,4 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# This file is required to make Python treat the subfolder as a package
+
+from .cloud_sql import CloudSQLVectorStore
+
+
+__all__ = ["CloudSQLVectorStore"]

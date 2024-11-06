@@ -11,25 +11,14 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+import os
 
-Flask==3.0.0
-gunicorn==22.0.0
-Werkzeug==3.0.3
-langchain
-sentence-transformers
-google-cloud-dlp==3.12.2
-google-cloud-storage==2.9.0
-google-cloud-pubsub==2.17.0
-google-cloud-datastore==2.15.2
-google-cloud-bigquery==3.11.4
-google-cloud-language==2.12
-google-api-core==2.15
-flask_sqlalchemy==3.1.1
-google==3.0.0
-google-cloud==0.34.0
-google-cloud-logging==3.9.0
-google-api-python-client==2.114.0
-pymysql==1.1.1
-cloud-sql-python-connector[pg8000]
-langchain-google-cloud-sql-pg
-langchain-huggingface
+from flask import Flask
+
+def create_app():
+    app = Flask(__name__, static_folder='static', template_folder='templates')
+    app.jinja_env.trim_blocks = True
+    app.jinja_env.lstrip_blocks = True
+    app.config['SECRET_KEY'] = os.environ.get("APPLICATION_SECRET_KEY")
+
+    return app

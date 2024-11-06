@@ -1,0 +1,209 @@
+/* Copyright 2024 Google LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
+/* styles.css */
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+
+    max-width: 2000px;
+    margin: 0 auto;
+}
+
+.content-container {
+    display: flex;
+    max-width: 2000px;
+    margin: 0 auto;
+}
+
+#chat-and-form {
+    width: 70%;
+}
+
+#chat {
+    height: 80vh;
+    padding: 10px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    display: block;
+
+    text-align: left;
+    overflow-y: scroll;
+
+    border: 1px solid #222;
+    border-radius: 2px;
+}
+
+#chat p {
+    white-space: pre-wrap;
+
+    padding: 8px;
+    border-radius: 4px;
+}
+
+#chat p:first-child {
+    margin-top: 0;
+}
+
+p.prompt {
+    background-color: rgba(50, 255, 0, 0.1);
+}
+
+p.prompt::before {
+    content: 'Prompt: ';
+    font-weight: bold;
+}
+
+p.instruct{
+    background-color: rgba(255, 255, 0, 0.2);
+}
+
+
+p.instruct::before  {
+    content: 'Instructions: ';
+    font-weight: bold;
+}
+
+p.previous_message {
+    background-color: rgba(73, 240, 240, 0.753);
+}
+
+p.previous_message::before  {
+    content: 'Previous message: ';
+    font-weight: bold;
+}
+
+p.response {
+    background-color: rgba(0, 134, 255, 0.1);
+}
+
+p.response::before {
+    content: 'Response: ';
+    font-weight: bold;
+}
+
+p.warning {
+    background-color: rgba(255, 229, 100, 0.1);
+}
+
+p.error::before {
+    content: 'Warning: ';
+    font-weight: bold;
+}
+
+p.error {
+    background-color: rgba(255, 0, 0, 0.1);
+}
+
+p.error::before {
+    content: 'Error: ';
+    font-weight: bold;
+}
+
+form {
+    display: flex;
+    width: 100%;
+}
+
+#prompt {
+    flex: 1;
+    padding: 10px;
+    margin-right: 10px;
+    border-radius: 2px;
+}
+
+input[type="submit"] {
+    padding: 10px 20px;
+    background-color: rgb(76,175,80);
+    color: white;
+    border: none;
+    border-radius: 2px;
+}
+
+input[type="submit"]:disabled {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+/* Filter Section Styles */
+#filter-section {
+    width: 30%;
+    margin-right: 2%; /* Space between filter section and the next section, adjust as needed */
+    border: 1px solid #ccc; /* Optional: adds a border around the filter section */
+    padding: 20px; /* Adds some space inside the filter section */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Optional: adds a slight shadow for depth */
+}
+
+#dlp-filter-section,
+#nlp-filter-section {
+    margin-top: 20px;
+}
+
+select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border: 1px solid #ccc; /* Adds a border to the dropdowns */
+    border-radius: 4px; /* Rounds the corners of the dropdowns */
+}
+
+label {
+    display: block;
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+input[type="checkbox"] {
+    margin-right: 10px; /* Space between checkbox and its label */
+}
+
+#nlp-range {
+    width: 100%;
+    margin-top: 10px; /* Adjusted for consistency */
+}
+
+input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 8px;
+    background: #ddd;
+    outline: none;
+    opacity: 1;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    background: var(--thumb-color);
+    cursor: pointer;
+}
+
+input[type="range"]::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    background: var(--thumb-color);
+    cursor: pointer;
+}
+
+input[type="range"]::-ms-thumb {
+    width: 25px;
+    height: 25px;
+    background: var(--thumb-color);
+    cursor: pointer;
+}

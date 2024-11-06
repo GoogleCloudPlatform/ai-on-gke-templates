@@ -23,6 +23,14 @@ locals {
   })
 }
 
+resource "random_string" "application_secret_key" {
+  length  = 8
+  lower   = true
+  numeric = true
+  special = false
+  upper   = false
+}
+
 # IAP Section: Creates the GKE components
 module "iap_auth" {
   count  = var.add_auth ? 1 : 0
@@ -109,8 +117,10 @@ resource "kubernetes_deployment" "rag_frontend_deployment" {
       spec {
         service_account_name = var.google_service_account
         container {
-          image = "us-central1-docker.pkg.dev/ai-on-gke/rag-on-gke/frontend@sha256:ec0e7b1ce6d0f9570957dd7fb3dcf0a16259cba915570846b356a17d6e377c59"
-          name  = "rag-frontend"
+          # image = "us-central1-docker.pkg.dev/ai-on-gke/rag-on-gke/frontend@sha256:d65b538742ee29826ee629cfe05c0008e7c09ce5357ddc08ea2eaf3fd6cefe4b"
+          image = "us-docker.pkg.dev/globant-gke-ai-resources/gke-ai-text-to-text/gke-rag-frontend@sha256:e6960ded132211f02d7442177bd6454ccd65b29768e62ebb47f14c17a30a46f2"
+
+          name = "rag-frontend"
 
           port {
             container_port = 8080
@@ -123,8 +133,19 @@ resource "kubernetes_deployment" "rag_frontend_deployment" {
           }
 
           env {
-            name  = "PROJECT_ID"
-            value = "projects/${var.project_id}"
+            name = "GCP_PROJECT_ID"
+            #value = "projects/${var.project_id}"
+            value = var.project_id
+          }
+
+          env {
+            name  = "CLOUDSQL_INSTANCE_REGION"
+            value = var.region
+          }
+
+          env {
+            name  = "CLOUDSQL_INSTANCE"
+            value = var.cloudsql_instance
           }
 
           env {
@@ -138,8 +159,13 @@ resource "kubernetes_deployment" "rag_frontend_deployment" {
           }
 
           env {
-            name  = "TABLE_NAME"
+            name  = "EMBEDDINGS_TABLE_NAME"
             value = var.dataset_embeddings_table_name
+          }
+
+          env {
+            name  = "APPLICATION_SECRET_KEY"
+            value = random_string.application_secret_key.result
           }
 
           resources {

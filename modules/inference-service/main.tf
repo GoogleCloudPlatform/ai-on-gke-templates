@@ -111,6 +111,15 @@ resource "kubernetes_deployment" "inference_deployment" {
           }
 
           env {
+            name  = "MAX_INPUT_LENGTH"
+            value = "2048"
+          }
+          env {
+            name  = "MAX_TOTAL_TOKENS"
+            value = "4096"
+          }
+
+          env {
             name  = "PORT"
             value = "8080"
           }

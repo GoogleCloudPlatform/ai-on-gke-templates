@@ -150,6 +150,24 @@ singleuser:
               kubespawner_override:
                 default: true
       default: true
+    - display_name: "GPU (L4)"
+      description: "Creates GPU VMs (L4) as the compute for notebook execution."
+      profile_options:
+        storage:
+          display_name: "Storage"
+          choices:
+            DefaultStorage:
+              display_name: "Local (SSD)"
+              kubespawner_override:
+                default: true
+      kubespawner_override:
+        image: ${notebook_image}:${notebook_image_tag}
+        extra_resource_limits:
+          nvidia.com/gpu: "1"
+        extra_resource_guarantees:
+          nvidia.com/gpu: "1"
+        node_selector:
+          cloud.google.com/gke-accelerator: "nvidia-l4"
   cmd: null
   cloudMetadata:
     blockWithIptables: false

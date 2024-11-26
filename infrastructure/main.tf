@@ -33,6 +33,7 @@ locals {
     us-east4        = "us-east4-a,us-east4-c"
     us-west1        = "us-west1-a,us-west1-b"
     us-west4        = "us-west4-a"
+    me-central2     = "me-central2-a,me-central2-b,me-central2-c"
   }
 }
 

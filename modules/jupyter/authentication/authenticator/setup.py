@@ -22,7 +22,7 @@ setuptools.setup(
     description="JupyterHub authenticator for Cloud IAP with JWT",
     long_description="long description here",
     long_description_content_type="text/markdown",
-    url="https://github.com/chiayi/ai-on-gke/tree/main/ray-on-gke/user/jupyterhub/auth",
+    url="https://github.com/GoogleCloudPlatform/ai-on-gke/tree/main/modules/jupyter/authentication/authenticator",
     packages=['gcpiapjwtauthenticator'],
     license='Apache 2.0',
     install_requires=[

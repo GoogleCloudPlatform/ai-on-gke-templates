@@ -1,0 +1,78 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    cloud.google.com/neg: '{"ingress":true}'
+  creationTimestamp: "2023-11-01T09:49:38Z"
+  finalizers:
+  - service.kubernetes.io/load-balancer-cleanup
+  generateName: falcon-
+  labels:
+    app: falcon
+  managedFields:
+  - apiVersion: v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:generateName: {}
+        f:labels:
+          .: {}
+          f:app: {}
+      f:spec:
+        f:allocateLoadBalancerNodePorts: {}
+        f:externalTrafficPolicy: {}
+        f:internalTrafficPolicy: {}
+        f:ports:
+          .: {}
+          k:{"port":8080,"protocol":"TCP"}:
+            .: {}
+            f:port: {}
+            f:protocol: {}
+            f:targetPort: {}
+        f:selector: {}
+        f:sessionAffinity: {}
+        f:type: {}
+    manager: GoogleCloudConsole
+    operation: Update
+    time: "2023-11-01T09:49:38Z"
+  - apiVersion: v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:finalizers:
+          .: {}
+          v:"service.kubernetes.io/load-balancer-cleanup": {}
+      f:status:
+        f:loadBalancer:
+          f:ingress: {}
+    manager: cloud-controller-manager
+    operation: Update
+    subresource: status
+    time: "2023-11-01T09:50:18Z"
+  name: falcon-5mxrd
+  namespace: default
+  resourceVersion: "14387"
+  uid: 057f8e08-76ac-408f-9d97-70c88dde57fe
+spec:
+  allocateLoadBalancerNodePorts: true
+  clusterIP: 10.52.4.93
+  clusterIPs:
+  - 10.52.4.93
+  externalTrafficPolicy: Cluster
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - nodePort: 32028
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: falcon
+  sessionAffinity: None
+  type: LoadBalancer
+status:
+  loadBalancer:
+    ingress:
+    - ip: 34.31.73.222

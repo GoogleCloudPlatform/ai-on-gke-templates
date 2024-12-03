@@ -1,0 +1,127 @@
+# This file can update the JupyterHub Helm chart's default configuration values.
+#
+# For reference see the configuration reference and default values, but make
+# sure to refer to the Helm chart version of interest to you!
+#
+# Introduction to YAML:     https://www.youtube.com/watch?v=cdLNKUoMc6c
+# Chart config reference:   https://zero-to-jupyterhub.readthedocs.io/en/stable/resources/reference.html
+# Chart default values:     https://github.com/jupyterhub/zero-to-jupyterhub-k8s/blob/HEAD/jupyterhub/values.yaml
+# Available chart versions: https://jupyterhub.github.io/helm-chart/
+hub:
+  config:
+    Authenticator:
+      admin_users:
+        - user1
+        - user2
+      allowed_users:
+        - user3
+        - user4
+    # ...
+    DummyAuthenticator:
+      password: password
+    JupyterHub:
+      authenticator_class: dummy
+  networkPolicy:
+    enabled: false
+
+prePuller:
+  hook:
+    enabled: false
+
+proxy:
+  chp:
+    networkPolicy:
+      enabled: false
+  traefik:
+    networkPolicy:
+      enabled: false
+
+scheduling:
+  userScheduler:
+    enabled: false
+
+singleuser:
+  cpu:
+    limit: 8
+    guarantee: 8
+  memory:
+    limit: 24G
+    guarantee: 24G
+  nodeSelector:
+    iam.gke.io/gke-metadata-server-enabled: "true"
+  storage:
+    type: dynamic
+    extraLabels: {}
+    extraVolumes: []
+    extraVolumeMounts: []
+    static:
+      pvcName:
+      subPath: "{username}"
+    capacity: 140Gi
+    homeMountPath: /home/jovyan
+    dynamic:
+      storageClass:
+      pvcNameTemplate: claim-{username}{servername}
+      volumeNameTemplate: volume-{username}{servername}
+      storageAccessModes: [ReadWriteOnce]
+  image:
+    name: jupyter/tensorflow-notebook
+    tag: python-3.10
+  startTimeout: 700
+# More info on kubespawner overrides: https://jupyterhub-kubespawner.readthedocs.io/en/latest/spawner.html#kubespawner.KubeSpawner
+#   profile example:
+#   - display_name: "Learning Data Science"
+#      description: "Datascience Environment with Sample Notebooks"
+#      kubespawner_override:
+#           cpu_limit: .5
+#           cpu_guarantee: .5
+#           mem_limit: 1G
+#           mem_guarantee: 1G
+#        image: jupyter/datascience-notebook:2343e33dec46
+#        lifecycle_hooks:
+#          postStart:
+#            exec:
+#              command:
+#                - "sh"
+#                - "-c"
+#                - >
+#                  gitpuller https://github.com/data-8/materials-fa17 master materials-fa;
+  profileList:
+    - display_name: "Basic"
+      description: "Creates CPU VMs as the compute for notebook execution."
+      default: true
+      kubespawner_override:
+        extra_resource_limits:
+          ephemeral-storage: '20Gi'
+        extra_resource_guarantees:
+          ephemeral-storage: '20Gi'
+    - display_name: "GPU L4"
+      description: "Creates GPU VMs (T4) as the compute for notebook execution"
+      kubespawner_override:
+        image: us-docker.pkg.dev/genai-poc-403304/jupyter-gpu/jupyter-gpu:mistralv2
+        extra_resource_limits:
+          # number of gpus needed on the node
+          nvidia.com/gpu: "4"
+        extra_resource_guarantees:
+          nvidia.com/gpu: "4"
+      #  possible values: nvidia-tesla-k80, nvidia-tesla-p100, nvidia-tesla-p4, nvidia-tesla-v100, nvidia-tesla-t4, nvidia-tesla-a100, nvidia-a100-80gb, nvidia-l4
+        node_selector:
+          cloud.google.com/gke-accelerator: "nvidia-tesla-t4"
+    - display_name: "GPU A100"
+      description: "Creates GPU VMs (A100) as the compute for notebook execution"
+      kubespawner_override:
+        image: jupyter/tensorflow-notebook:python-3.10
+        extra_resource_limits:
+          nvidia.com/gpu: "2"
+          ephemeral-storage: '10Gi'
+        # GPU requests
+        extra_resource_guarantees:
+          nvidia.com/gpu: "2"
+          ephemeral-storage: '10Gi'
+        node_selector:
+          cloud.google.com/gke-accelerator: "nvidia-tesla-a100"
+  cmd: null
+  cloudMetadata:
+    blockWithIptables: false
+  networkPolicy:
+    enabled: false

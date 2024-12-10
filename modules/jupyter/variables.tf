@@ -26,7 +26,7 @@ variable "notebook_image" {
 variable "notebook_image_tag" {
   type        = string
   description = "Jupyter notebook image tag"
-  default     = "python-3.10"
+  default     = "python-3.11"
 }
 
 variable "members_allowlist" {

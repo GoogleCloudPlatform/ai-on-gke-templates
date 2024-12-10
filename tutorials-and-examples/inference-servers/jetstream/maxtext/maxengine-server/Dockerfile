@@ -4,7 +4,7 @@
 FROM ubuntu:22.04
 
 ENV DEBIAN_FRONTEND=noninteractive
-ENV MAXTEXT_VERSION=jetstream-v0.2.2
+ENV MAXTEXT_VERSION=main
 
 RUN apt -y update && apt install -y --no-install-recommends \
     ca-certificates \
@@ -15,11 +15,15 @@ RUN apt -y update && apt install -y --no-install-recommends \
 RUN update-alternatives --install \
     /usr/bin/python3 python3 /usr/bin/python3.10 1
 
-RUN git clone https://github.com/google/maxtext.git
+RUN git clone https://github.com/AI-Hypercomputer/maxtext.git && \
+git clone https://github.com/AI-Hypercomputer/JetStream.git
 
 RUN cd maxtext/ && \
 git checkout ${MAXTEXT_VERSION} && \
 bash setup.sh
+
+RUN cd /JetStream && \
+pip install -e .
 
 COPY maxengine_server_entrypoint.sh /usr/bin/
 

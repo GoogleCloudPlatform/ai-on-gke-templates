@@ -220,7 +220,7 @@ module "cloud-nat" {
   source        = "terraform-google-modules/cloud-nat/google"
   version       = "5.0.0"
   count         = var.create_network && var.private_cluster ? 1 : 0
-  region        = var.region
+  region        = local.region
   project_id    = var.project_id
   create_router = true
   router        = "${var.network_name}-router"

@@ -14,7 +14,7 @@
     "axios": "^1.6.7",
     "formidable": "^3.5.1",
     "fs": "^0.0.1-security",
-    "next": "14.1.0",
+    "next": "14.2.21",
     "path": "^0.12.7",
     "react": "^18",
     "react-dom": "^18",

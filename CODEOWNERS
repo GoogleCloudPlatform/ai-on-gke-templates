@@ -2,3 +2,4 @@
 # directory at the root of the repository and any of its
 # subdirectories.
 /benchmarks/  @achandrasekar @ahg-g @annapendleton @Bslabe123 @jjk-g
+/tpu-provisioner/ @echiugoog @nstogner

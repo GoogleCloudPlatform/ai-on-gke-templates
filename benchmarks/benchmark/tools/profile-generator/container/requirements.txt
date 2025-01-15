@@ -37,3 +37,4 @@ aiohttp
 google-auth
 google-cloud-storage >= 2.18.2
 prometheus_client >= 0.21.0
+sympy >= 1.13

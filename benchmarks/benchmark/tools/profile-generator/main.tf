@@ -73,6 +73,7 @@ module "latency-profile" {
   max_output_len         = var.max_output_len
   max_prompt_len         = var.max_prompt_len
   request_rates          = var.request_rates
+  request_timeout        = var.request_timeout
   benchmark_time_seconds = var.benchmark_time_seconds
   gcs_output = {
     bucket   = var.output_bucket

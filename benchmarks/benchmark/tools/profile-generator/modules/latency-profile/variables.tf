@@ -125,6 +125,13 @@ variable "request_rates" {
   nullable    = false
 }
 
+variable "request_timeout" {
+  description = "Timeout per mock request in seconds"
+  type        = number
+  default     = 10800
+  nullable    = false
+}
+
 variable "tokenizer" {
   description = "Benchmark server configuration for tokenizer."
   type        = string

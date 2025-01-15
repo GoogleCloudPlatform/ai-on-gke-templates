@@ -112,6 +112,13 @@ variable "request_rates" {
   nullable    = false
 }
 
+variable "request_timeout" {
+  description = "Timeout per mock request in seconds"
+  type        = number
+  default     = 10800
+  nullable    = false
+}
+
 variable "output_bucket" {
   description = "Bucket name for storing results"
   type        = string

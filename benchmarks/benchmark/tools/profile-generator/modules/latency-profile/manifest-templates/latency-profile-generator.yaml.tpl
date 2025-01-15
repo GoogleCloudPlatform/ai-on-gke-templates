@@ -38,6 +38,8 @@ spec:
               value: ${max_output_len}
             - name: REQUEST_RATES
               value: ${request_rates}
+            - name: REQUEST_TIMEOUT
+              value: ${request_timeout}
             - name: BENCHMARK_TIME_SECONDS
               value: ${benchmark_time_seconds}
             - name: OUTPUT_BUCKET

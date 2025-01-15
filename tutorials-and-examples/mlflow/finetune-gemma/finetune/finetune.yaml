@@ -1,0 +1,63 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: finetune-job-mlflow-11
+  namespace: default
+  labels:
+    app: gemma-finetune
+spec:
+  backoffLimit: 2
+  template:
+    metadata:
+      annotations:
+        kubectl.kubernetes.io/default-container: finetuner
+    spec:
+      terminationGracePeriodSeconds: 6000
+      containers:
+      - name: finetuner
+        image: us-docker.pkg.dev/akvelon-gke-aieco/gemma/finetune-gemma-mlflow:1.0.0
+        resources:
+          limits:
+            nvidia.com/gpu: "1"
+        env:
+        - name: MLFLOW_URI
+          value: "http://my-mlflow-release-tracking:80"
+        - name: MLFLOW_ARTIFACT_URI
+          value: "gs://<YOU_BUCKET_PATH>"
+        - name: MLFLOW_EXPERIMENT_NAME
+          value: "gemma2-9b-finetuning-1"
+        - name: MODEL_NAME
+          value: "google/gemma-2-9b"
+        - name: NEW_MODEL
+          value: "gemma-2-9b-sql-finetuned-mlflow"
+        - name: LORA_R
+          value: "8"
+        - name: LORA_ALPHA
+          value: "16"
+        - name: TRAIN_BATCH_SIZE
+          value: "1"
+        - name: EVAL_BATCH_SIZE
+          value: "2"
+        - name: GRADIENT_ACCUMULATION_STEPS
+          value: "2"
+        - name: DATASET_LIMIT
+          value: "1000"
+        - name: MAX_SEQ_LENGTH
+          value: "512"
+        - name: LOGGING_STEPS
+          value: "5"
+        - name: HF_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: hf-secret
+              key: hf_api_token
+        volumeMounts:
+        - mountPath: /dev/shm
+          name: dshm
+      volumes:
+      - name: dshm
+        emptyDir:
+          medium: Memory
+      nodeSelector:
+        cloud.google.com/gke-accelerator: nvidia-tesla-a100
+      restartPolicy: OnFailure

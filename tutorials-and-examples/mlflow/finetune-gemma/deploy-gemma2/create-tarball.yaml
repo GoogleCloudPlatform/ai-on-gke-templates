@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Job
+metadata:
+  name: conda-env-tarball-for-gemma2
+  annotations:
+    gke-gcsfuse/volumes: "true"
+spec:
+  serviceAccount: default
+  containers:
+  - name: conda
+    image: continuumio/anaconda3
+    command: [ "/bin/bash", "-c", "--" ]
+    args: [ "conda env create -f /etc/config/environment.yaml; conda pack --force -n mlflow-gemma2-env -o /data/mlflow-gemma2-env.tar.gz" ]
+    volumeMounts:
+    - name: conda-config
+      mountPath: /etc/config
+    - name: gcsfuse-conda-env
+      mountPath: /data
+      readOnly: false
+  volumes:
+  - name: conda-config
+    configMap:
+      name: conda-requirements
+  - name: gcsfuse-conda-env
+    csi:
+      driver: gcsfuse.csi.storage.gke.io
+      volumeAttributes:
+        bucketName: <YOUR_BUCKET_NAME>
+        mountOptions: "implicit-dirs"
+
+  restartPolicy: Never

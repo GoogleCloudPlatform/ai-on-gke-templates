@@ -26,6 +26,11 @@ const (
 
 	// AnnotationCopyLabels is a comma-separated list of labels to copy from the Pod to the node pool config (Nodes).
 	AnnotationCopyLabels = "tpu-provisioner.cloud.google.com/copy-labels"
+	// AnnotationAdditionalNodeNetworks is a comma-separated list of additional networks and subnets to attach to the node pool.
+	// Format: "<network-name>:<subnet-name>, ..."
+	AnnotationAdditionalNodeNetworks = "tpu-provisioner.cloud.google.com/additional-node-networks"
+	// AnnotatationServiceAccount is the GCP service account to use for the node pool.
+	AnnotationNodeServiceAccount = "tpu-provisioner.cloud.google.com/node-service-account"
 
 	EventNodePoolCreationStarted   = "NodePoolCreationStarted"
 	EventNodePoolCreationSucceeded = "NodePoolCreationSucceeded"

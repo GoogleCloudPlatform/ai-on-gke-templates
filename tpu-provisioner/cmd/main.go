@@ -79,10 +79,11 @@ func main() {
 		GCPCluster            string `envconfig:"GCP_CLUSTER"`
 		GCPNodeServiceAccount string `envconfig:"GCP_NODE_SERVICE_ACCOUNT"`
 
-		GCPNodeTags          []string `envconfig:"GCP_NODE_TAGS"`
-		GCPPodToNodeLabels   []string `envconfig:"GCP_POD_TO_NODE_LABELS"`
-		GCPNodeSecondaryDisk string   `envconfig:"GCP_NODE_SECONDARY_DISK" default:""`
-		GCPNodeSecureBoot    bool     `envconfig:"GCP_NODE_SECURE_BOOT" default:"true"`
+		GCPNodeTags               []string `envconfig:"GCP_NODE_TAGS"`
+		GCPPodToNodeLabels        []string `envconfig:"GCP_POD_TO_NODE_LABELS"`
+		GCPNodeSecondaryDisk      string   `envconfig:"GCP_NODE_SECONDARY_DISK" default:""`
+		GCPNodeSecureBoot         bool     `envconfig:"GCP_NODE_SECURE_BOOT" default:"true"`
+		GCPNodeAdditionalNetworks string   `envconfig:"GCP_NODE_ADDITIONAL_NETWORKS" default:""`
 
 		// GCPForceOnDemand forces the controller to create nodes on demand, even if
 		// the Pod requests a reservation or spot.
@@ -201,16 +202,17 @@ func main() {
 		provider = &cloud.GKE{
 			Service: containers,
 			ClusterContext: cloud.GKEContext{
-				ProjectID:          cfg.GCPProjectID,
-				ClusterLocation:    cfg.GCPClusterLocation,
-				Cluster:            cfg.GCPCluster,
-				NodeZone:           cfg.GCPZone,
-				NodeServiceAccount: cfg.GCPNodeServiceAccount,
-				NodeSecondaryDisk:  cfg.GCPNodeSecondaryDisk,
-				NodeTags:           cfg.GCPNodeTags,
-				PodToNodeLabels:    cfg.GCPPodToNodeLabels,
-				NodeSecureBoot:     cfg.GCPNodeSecureBoot,
-				ForceOnDemand:      cfg.GCPForceOnDemand,
+				ProjectID:              cfg.GCPProjectID,
+				ClusterLocation:        cfg.GCPClusterLocation,
+				Cluster:                cfg.GCPCluster,
+				NodeZone:               cfg.GCPZone,
+				NodeServiceAccount:     cfg.GCPNodeServiceAccount,
+				NodeAdditionalNetworks: cfg.GCPNodeAdditionalNetworks,
+				NodeSecondaryDisk:      cfg.GCPNodeSecondaryDisk,
+				NodeTags:               cfg.GCPNodeTags,
+				PodToNodeLabels:        cfg.GCPPodToNodeLabels,
+				NodeSecureBoot:         cfg.GCPNodeSecureBoot,
+				ForceOnDemand:          cfg.GCPForceOnDemand,
 			},
 			Recorder: mgr.GetEventRecorderFor("tpu-provisioner"),
 		}

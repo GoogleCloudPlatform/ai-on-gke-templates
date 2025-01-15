@@ -104,7 +104,7 @@ Pod Template:
   Labels:  app=mistral-7b
   Containers:
    mistral-7b:
-    Image:      us-docker.pkg.dev/deeplearning-platform-release/gcr.io/huggingface-text-generation-inference-cu121.2-2.ubuntu2204.py310
+    Image:      us-docker.pkg.dev/deeplearning-platform-release/gcr.io/huggingface-text-generation-inference-cu124.2-3.ubuntu2204.py311
     Port:       8080/TCP
     Host Port:  0/TCP
     Limits:
@@ -115,14 +115,14 @@ Pod Template:
       PORT:       8080
       QUANTIZE:   bitsandbytes-nf4
     Mounts:
-      /data from data (rw)
+      /tmp from tmp (rw)
       /dev/shm from dshm (rw)
   Volumes:
    dshm:
     Type:       EmptyDir (a temporary directory that shares a pod's lifetime)
     Medium:     Memory
     SizeLimit:  <unset>
-   data:
+   tmp:
     Type:          HostPath (bare host directory volume)
     Path:          /mnt/stateful_partition/kube-ephemeral-ssd/mistral-data
     HostPathType:  

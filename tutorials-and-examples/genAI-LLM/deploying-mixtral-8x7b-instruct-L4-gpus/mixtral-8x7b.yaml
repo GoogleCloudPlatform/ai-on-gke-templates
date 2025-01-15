@@ -30,7 +30,7 @@ spec:
         cloud.google.com/gke-accelerator: "nvidia-l4"
       containers:
       - name: mixtral8x7b
-        image: us-docker.pkg.dev/deeplearning-platform-release/gcr.io/huggingface-text-generation-inference-cu121.2-2.ubuntu2204.py310
+        image: us-docker.pkg.dev/deeplearning-platform-release/gcr.io/huggingface-text-generation-inference-cu124.2-3.ubuntu2204.py311
         ports:
         - name: server-port
           containerPort: 8080
@@ -53,7 +53,7 @@ spec:
             memory: "42Gi"
             nvidia.com/gpu: "2"
         volumeMounts:
-          - mountPath: /data
+          - mountPath: /tmp
             name: ephemeral-volume
           - mountPath: /dev/shm
             name: dshm
@@ -61,7 +61,7 @@ spec:
         - name: dshm
           emptyDir:
             medium: Memory
-        - name: data
+        - name: tmp
           hostPath:
             path: /mnt/stateful_partition/kube-ephemeral-ssd/mixtral-data
         - name: ephemeral-volume

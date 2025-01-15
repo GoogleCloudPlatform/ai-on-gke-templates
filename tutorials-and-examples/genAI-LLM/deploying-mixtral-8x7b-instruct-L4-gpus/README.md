@@ -127,7 +127,7 @@ Pod Template:
   Labels:  app=mixtral8x7b
   Containers:
    mixtral8x7b:
-    Image:      us-docker.pkg.dev/deeplearning-platform-release/gcr.io/huggingface-text-generation-inference-cu121.2-2.ubuntu2204.py310
+    Image:      us-docker.pkg.dev/deeplearning-platform-release/gcr.io/huggingface-text-generation-inference-cu124.2-3.ubuntu2204.py311
     Port:       8080/TCP
     Host Port:  0/TCP
     Limits:
@@ -144,14 +144,14 @@ Pod Template:
       NUM_SHARD:  2
       PORT:       8080
     Mounts:
-      /data from ephemeral-volume (rw)
+      /tmp from ephemeral-volume (rw)
       /dev/shm from dshm (rw)
   Volumes:
    dshm:
     Type:       EmptyDir (a temporary directory that shares a pod's lifetime)
     Medium:     Memory
     SizeLimit:  <unset>
-   data:
+   tmp:
     Type:          HostPath (bare host directory volume)
     Path:          /mnt/stateful_partition/kube-ephemeral-ssd/mixtral-data
     HostPathType:  

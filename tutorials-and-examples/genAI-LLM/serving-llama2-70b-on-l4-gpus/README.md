@@ -76,7 +76,7 @@ spec:
     spec:
       containers:
       - name: llama-2-70b
-        image: us-docker.pkg.dev/deeplearning-platform-release/gcr.io/huggingface-text-generation-inference-cu121.2-2.ubuntu2204.py310
+        image: us-docker.pkg.dev/deeplearning-platform-release/gcr.io/huggingface-text-generation-inference-cu124.2-3.ubuntu2204.py311
         resources:
           limits:
             nvidia.com/gpu: 2
@@ -97,13 +97,13 @@ spec:
         volumeMounts:
           - mountPath: /dev/shm
             name: dshm
-          - mountPath: /data
-            name: data
+          - mountPath: /tmp
+            name: tmp
       volumes:
          - name: dshm
            emptyDir:
               medium: Memory
-         - name: data
+         - name: tmp
            hostPath:
             path: /mnt/stateful_partition/kube-ephemeral-ssd/llama-data
       nodeSelector:
